@@ -49,7 +49,7 @@ module Selenium
             Platform.assert_executable(path)
             {driver_path: path}
           else
-            output = SeleniumManager.binary_paths(*to_args(@options))
+            output = SeleniumManager.binary_paths(*to_args)
             formatted = {driver_path: Platform.cygwin_path(output['driver_path'], only_cygwin: true),
                          browser_path: Platform.cygwin_path(output['browser_path'], only_cygwin: true)}
             Platform.assert_executable(formatted[:driver_path])
@@ -63,19 +63,19 @@ module Selenium
         end
       end
 
-      def to_args(options)
-        args = ['--browser', options.browser_name]
-        if options.browser_version
+      def to_args
+        args = ['--browser', @options.browser_name]
+        if @options.browser_version
           args << '--browser-version'
-          args << options.browser_version
+          args << @options.browser_version
         end
-        if options.respond_to?(:binary) && !options.binary.nil?
+        if @options.respond_to?(:binary) && !@options.binary.nil?
           args << '--browser-path'
-          args << options.binary.gsub('\\', '\\\\\\')
+          args << @options.binary.gsub('\\', '\\\\\\')
         end
-        if options.proxy
+        if @options.proxy
           args << '--proxy'
-          args << (options.proxy.ssl || options.proxy.http)
+          args << (@options.proxy.ssl || @options.proxy.http)
         end
         args
       end
