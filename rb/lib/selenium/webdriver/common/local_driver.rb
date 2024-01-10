@@ -39,13 +39,12 @@ module Selenium
         end
 
         service.executable_path ||= begin
-          result = WebDriver::DriverFinder.result(options, service.class)
-          browser_path = result[:browser_path]
-          if options.respond_to?(:binary) && browser_path && !browser_path.empty?
-            options.binary = browser_path
+          finder = WebDriver::DriverFinder.new(options, service)
+          if options.respond_to?(:binary) && finder.browser_path?
+            options.binary = finder.browser_path
             options.browser_version = nil
           end
-          result[:driver_path]
+          finder.driver_path
         end
         options.as_json
       end
