@@ -94,11 +94,11 @@ module Selenium
         end
       end
 
-      describe '.results' do
+      describe '.binary_paths' do
         it 'returns exact output from #run' do
           return_map = {}
           allow(described_class).to receive_messages(binary: 'binary', run: return_map)
-          expect(described_class.result('something')).to eq(return_map)
+          expect(described_class.binary_paths('something')).to eq(return_map)
         end
       end
     end

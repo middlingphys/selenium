@@ -24,28 +24,28 @@ module Selenium
     describe DriverFinder do
       it 'class path accepts a String without calling Selenium Manager' do
         allow(Chrome::Service).to receive(:driver_path).and_return('path')
-        allow(SeleniumManager).to receive(:result)
+        allow(SeleniumManager).to receive(:binary_paths)
         allow(Platform).to receive(:assert_executable).with('path').and_return(true)
 
         described_class.new(Options.chrome, Service.chrome).driver_path
 
-        expect(SeleniumManager).not_to have_received(:result)
+        expect(SeleniumManager).not_to have_received(:binary_paths)
         expect(Platform).to have_received(:assert_executable).with('path')
       end
 
       it 'class path accepts a proc without calling Selenium Manager' do
         allow(Chrome::Service).to receive(:driver_path).and_return(proc { 'path' })
-        allow(SeleniumManager).to receive(:result)
+        allow(SeleniumManager).to receive(:binary_paths)
         allow(Platform).to receive(:assert_executable).with('path').and_return(true)
 
         described_class.new(Options.chrome, Service.chrome).driver_path
 
-        expect(SeleniumManager).not_to have_received(:result)
+        expect(SeleniumManager).not_to have_received(:binary_paths)
         expect(Platform).to have_received(:assert_executable).with('path')
       end
 
       it 'validates all returned files' do
-        allow(SeleniumManager).to receive(:result).and_return({'browser_path' => '/path/to/browser',
+        allow(SeleniumManager).to receive(:binary_paths).and_return({'browser_path' => '/path/to/browser',
                                                                'driver_path' => '/path/to/driver'})
         allow(Platform).to receive(:assert_executable).with('/path/to/browser').and_return(true)
         allow(Platform).to receive(:assert_executable).with('/path/to/driver').and_return(true)
@@ -57,7 +57,7 @@ module Selenium
       end
 
       it 'wraps error with NoSuchDriverError' do
-        allow(SeleniumManager).to receive(:result).and_raise(Error::WebDriverError, 'this error')
+        allow(SeleniumManager).to receive(:binary_paths).and_raise(Error::WebDriverError, 'this error')
 
         expect {
           expect {
@@ -68,7 +68,7 @@ module Selenium
       end
 
       it 'creates arguments' do
-        allow(SeleniumManager).to receive(:result).and_return({'browser_path' => '/path/to/browser',
+        allow(SeleniumManager).to receive(:binary_paths).and_return({'browser_path' => '/path/to/browser',
                                                                'driver_path' => '/path/to/driver'})
         proxy = instance_double(Proxy, ssl: 'proxy')
         options = Options.chrome(browser_version: 'stable', proxy: proxy, binary: 'path/to/browser')
@@ -77,7 +77,7 @@ module Selenium
 
         described_class.new(options, Service.chrome).driver_path
 
-        expect(SeleniumManager).to have_received(:result).with('--browser',
+        expect(SeleniumManager).to have_received(:binary_paths).with('--browser',
                                                                options.browser_name,
                                                                '--browser-version',
                                                                options.browser_version,
