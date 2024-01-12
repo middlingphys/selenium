@@ -8,6 +8,11 @@ package(default_visibility = ["//rb:__subpackages__"])
         size = "small",
         srcs = [file],
         args = ["rb/spec/"],
+        data = [
+            "//third_party/firebug:favourite_colour-1.1-an+fx.xpi",
+            "//third_party/firebug:firebug-1.5.0-fx.xpi",
+            "//third_party/firebug:mooltipass-1.1.87.xpi",
+        ],
         main = "@bundle//bin:rspec",
         tags = ["no-sandbox"],
         deps = [

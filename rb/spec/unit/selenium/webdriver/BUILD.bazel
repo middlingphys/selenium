@@ -10,6 +10,7 @@ rb_library(
         "//rb/lib:selenium-webdriver",
         "//rb/lib/selenium:webdriver",
         "//rb/lib/selenium/webdriver:atoms",
+        "//rb/spec:rspec_matchers",
         "@bundle",
     ],
 )

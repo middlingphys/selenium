@@ -331,9 +331,9 @@ pin_browsers()
 
 http_archive(
     name = "rules_ruby",
-    sha256 = "cc430d7ba64162d0a958b90899c31293083f51c7b28a54a66b066a5e4f549a66",
-    strip_prefix = "rules_ruby-79d5bc65b4cb5489fbb4c12452ccc9e91a44ca34",
-    url = "https://github.com/bazel-contrib/rules_ruby/archive/79d5bc65b4cb5489fbb4c12452ccc9e91a44ca34.zip",
+    sha256 = "849a2b15188df286ff424f5ffb92de8bd9d593ffbe891e19294920d2c2e6750f",
+    strip_prefix = "rules_ruby-aa6361cb652c0869dfc620a2e6dc12a264c251b6",
+    url = "https://github.com/bazel-contrib/rules_ruby/archive/aa6361cb652c0869dfc620a2e6dc12a264c251b6.zip",
 )
 
 load(

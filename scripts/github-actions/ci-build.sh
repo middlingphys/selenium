@@ -13,6 +13,7 @@ bazel query @npm//:all >/dev/null
 # Now run the tests. The engflow build uses pinned browsers
 # so this should be fine
 # shellcheck disable=SC2046
+skipped_tests=$(tr '\n' ' ' < .skipped_tests) 
 bazel test --config=remote-ci --build_tests_only \
   --test_tag_filters=-exclusive-if-local,-skip-remote \
   --keep_going --flaky_test_attempts=2 \
@@ -20,6 +21,14 @@ bazel test --config=remote-ci --build_tests_only \
   //java/... \
   //javascript/atoms/... //javascript/webdriver/... \
   //py/... \
-  //rb/spec/unit/... -- $(cat .skipped-tests | tr '\n' ' ')
+  //rb/spec/unit/selenium/webdriver/... -- "${skipped_tests}"
+
 # Build the packages we want to ship to users
-bazel build --config=remote-ci //dotnet:all java/src/... //javascript/node/selenium-webdriver:selenium-webdriver //py:selenium-wheel //rb:selenium-webdriver //rb:selenium-devtools
+bazel build --config=remote-ci \
+  //dotnet:all  \
+  //java/src/...  \
+  //javascript/node/selenium-webdriver:selenium-webdriver  \
+  //py:selenium-wheel  \
+  //rb:selenium-webdriver  \
+  //rb:selenium-devtools
+ 
